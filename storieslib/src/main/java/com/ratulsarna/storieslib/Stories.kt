@@ -32,6 +32,27 @@ import kotlinx.coroutines.launch
  * limitations under the License.
  */
 
+/**
+ * @param numberOfPages Number of pages in the story
+ * @param modifier Modifier for the whole story
+ * @param indicatorModifier Modifier for the indicator
+ * @param spaceBetweenIndicator Space between the indicators
+ * @param indicatorBackgroundColor Background color of the indicator
+ * @param indicatorProgressColor Progress color of the indicator
+ * @param indicatorBackgroundGradientColors Background gradient colors of the indicator
+ * @param slideDurationInSeconds Duration of each slide in seconds
+ * @param touchToPause Pause the story when user touches the screen
+ * @param hideIndicators Hide the indicators
+ * @param repeatStories Loop or loop back the stories after the last one or the first one
+ * @param swipeAnimationOnPageTransition Enable or disable the swipe animation on page transition
+ * @param tapForNext Enable or disable the tap for next
+ * @param tapForPrevious Enable or disable the tap for previous
+ * @param onTapForNext Callback for tap for next
+ * @param onTapForPrevious Callback for tap for previous
+ * @param onEveryStoryChange Callback for every story change
+ * @param onComplete Callback for when all the stories are completed
+ * @param content Content of the story at the given index
+ */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalPagerApi::class)
 @Composable
 fun Stories(
