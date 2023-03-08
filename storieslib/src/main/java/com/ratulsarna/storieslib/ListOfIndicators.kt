@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.Dp
  */
 
 @Composable
-fun RowScope.ListOfIndicators(
+internal fun RowScope.ListOfIndicators(
     numberOfPages: Int,
     @SuppressLint("ModifierParameter") indicatorModifier: Modifier,
     indicatorBackgroundColor: Color,

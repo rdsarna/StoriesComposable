@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
  * @param onTapForNext Callback for tap for next
  * @param onTapForPrevious Callback for tap for previous
  * @param onEveryStoryChange Callback for every story change
- * @param onComplete Callback for when all the stories are completed
+ * @param onComplete Callback for when all the stories are completed (not called if repeatStories is true)
  * @param content Content of the story at the given index
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
@@ -182,7 +182,11 @@ fun Stories(
                 currentPage,
             ) {
                 coroutineScope.launch {
-                    currentPage++
+                    currentPage = if (repeatStories) {
+                        (currentPage + 1) % numberOfPages
+                    } else {
+                        (currentPage + 1)
+                    }
                     if (currentPage < numberOfPages) {
                         onEveryStoryChange?.invoke(currentPage)
                         if (swipeAnimationOnPageTransition) {

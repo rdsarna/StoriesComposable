@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
  */
 
 @Composable
-fun LinearIndicator(
+internal fun LinearIndicator(
     modifier: Modifier,
     inProgress: Boolean = false,
     setProgress: Float = 0f,
