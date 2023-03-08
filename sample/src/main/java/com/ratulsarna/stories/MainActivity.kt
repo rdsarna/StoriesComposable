@@ -51,7 +51,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    Stories(numberOfPages = 4, onComplete = {  }, repeatStories = true) { pageNum ->
+    Stories(
+        numberOfPages = 4,
+        onComplete = { Log.d("MainActivityStories", "onComplete called") },
+        onEveryStoryChange = { Log.d("MainActivityStories", "onEveryStoryChange called, pageNumber=$it") },
+        repeatStories = true
+    ) { pageNum ->
         when (pageNum) {
             0 -> {
                 Box(

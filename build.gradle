@@ -4,6 +4,7 @@ buildscript {
         librariesPath = "libraries"
 
         accompanistVersion = "0.28.0"
+        composeFoundationVersion = "1.4.0-beta02"
         coreKtxVersion = "1.9.0"
         appCompatVersion = "1.6.1"
         archTestCoreVersion = "2.2.0"

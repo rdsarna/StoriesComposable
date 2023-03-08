@@ -1,8 +1,9 @@
 package com.ratulsarna.storieslib
 
-import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -12,8 +13,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
 /*
@@ -53,7 +52,7 @@ import kotlinx.coroutines.launch
  * @param onComplete Callback for when all the stories are completed
  * @param content Content of the story at the given index
  */
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun Stories(
     numberOfPages: Int,
@@ -116,7 +115,6 @@ fun Stories(
                             if (currentPage < numberOfPages) {
                                 onTapForNext?.invoke()
                                 onEveryStoryChange?.invoke(currentPage)
-                                Log.d("SPECIALL", "next, currentPage=$currentPage")
                                 if (swipeAnimationOnPageTransition) {
                                     pagerState.animateScrollToPage(currentPage)
                                 } else {
@@ -138,7 +136,6 @@ fun Stories(
                             }
                             onTapForPrevious?.invoke()
                             onEveryStoryChange?.invoke(currentPage)
-                            Log.d("SPECIALL", "prev, currentPage=$currentPage")
                             if (swipeAnimationOnPageTransition) {
                                 pagerState.animateScrollToPage(currentPage)
                             } else {

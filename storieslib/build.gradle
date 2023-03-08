@@ -63,7 +63,7 @@ dependencies {
     // Optional - Add window size utils
     implementation 'androidx.compose.material3:material3-window-size-class'
 
-    implementation "com.google.accompanist:accompanist-pager:$accompanistVersion"
+    implementation "androidx.compose.foundation:foundation:$composeFoundationVersion"
 
     // Optional - Integration with activities
     implementation 'androidx.activity:activity-compose:1.6.1'

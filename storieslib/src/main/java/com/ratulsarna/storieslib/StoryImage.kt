@@ -1,6 +1,9 @@
 package com.ratulsarna.storieslib
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -8,9 +11,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.toSize
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
 
 /*
  * Copyright 2023 Ratul Sarna
@@ -28,7 +28,7 @@ import com.google.accompanist.pager.PagerState
  * limitations under the License.
  */
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalComposeUiApi
 @Composable
 fun StoryImage(
@@ -42,7 +42,7 @@ fun StoryImage(
         mutableStateOf(value = Size.Zero)
     }
     HorizontalPager(
-        count = numberOfPages,
+        pageCount = numberOfPages,
         state = pagerState,
         modifier = Modifier
             .onSizeChanged {
