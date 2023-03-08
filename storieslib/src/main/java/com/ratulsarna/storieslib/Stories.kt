@@ -1,6 +1,6 @@
 package com.ratulsarna.storieslib
 
-import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,6 +47,7 @@ fun Stories(
     slideDurationInSeconds: Long = 5,
     touchToPause: Boolean = true,
     hideIndicators: Boolean = false,
+    repeatStories: Boolean = true,
     swipeAnimationOnPageTransition: Boolean = false,
     tapForNext: Boolean = true,
     tapForPrevious: Boolean = true,
@@ -81,26 +82,42 @@ fun Stories(
             },
             onTap = {
                 when {
-                    it == HorizontalHalf.RIGHT && currentPage < numberOfPages && tapForNext -> {
+                    it == HorizontalHalf.RIGHT && tapForNext -> {
                         coroutineScope.launch {
-                            currentPage++
-                            onTapForNext?.invoke()
-                            onEveryStoryChange?.invoke(currentPage)
-                            if (currentPage == numberOfPages) onComplete?.invoke()
-                            if (swipeAnimationOnPageTransition) {
-                                pagerState.animateScrollToPage(currentPage)
-                            } else {
-                                pagerState.scrollToPage(currentPage)
+                            if (repeatStories.not() && currentPage == numberOfPages) {
+                                return@launch
                             }
+                            currentPage = if (repeatStories) {
+                                (currentPage + 1) % numberOfPages
+                            } else {
+                                (currentPage + 1)
+                            }
+                            if (currentPage < numberOfPages) {
+                                onTapForNext?.invoke()
+                                onEveryStoryChange?.invoke(currentPage)
+                                Log.d("SPECIALL", "next, currentPage=$currentPage")
+                                if (swipeAnimationOnPageTransition) {
+                                    pagerState.animateScrollToPage(currentPage)
+                                } else {
+                                    pagerState.scrollToPage(currentPage)
+                                }
+                            }
+                            if (currentPage == numberOfPages) onComplete?.invoke()
                         }
                     }
-                    it == HorizontalHalf.LEFT && currentPage > 0 && tapForPrevious -> {
+                    it == HorizontalHalf.LEFT && tapForPrevious -> {
                         coroutineScope.launch {
-                            // if we're on the last page, we need to go back 2 pages so that
-                            // we do not repeat the last page
-                            if (currentPage == numberOfPages) currentPage -= 2 else currentPage--
+                            if (repeatStories.not() && currentPage == 0) {
+                                return@launch
+                            }
+                            currentPage = if (repeatStories) {
+                                if (currentPage == 0) numberOfPages - 1 else currentPage - 1
+                            } else {
+                                if (currentPage == numberOfPages) currentPage - 2 else currentPage - 1
+                            }
                             onTapForPrevious?.invoke()
                             onEveryStoryChange?.invoke(currentPage)
+                            Log.d("SPECIALL", "prev, currentPage=$currentPage")
                             if (swipeAnimationOnPageTransition) {
                                 pagerState.animateScrollToPage(currentPage)
                             } else {
@@ -164,34 +181,4 @@ fun Stories(
         }
     }
 
-}
-
-@Composable
-private fun RowScope.ListOfIndicators(
-    numberOfPages: Int,
-    @SuppressLint("ModifierParameter") indicatorModifier: Modifier,
-    indicatorBackgroundColor: Color,
-    indicatorProgressColor: Color,
-    slideDurationInSeconds: Long,
-    pauseTimer: Boolean,
-    hideIndicators: Boolean,
-    spaceBetweenIndicator: Dp,
-    currentPage: Int,
-    onAnimationEnd: () -> Unit,
-) {
-    for (index in 0 until numberOfPages) {
-        LinearIndicator(
-            modifier = indicatorModifier.weight(1f),
-            inProgress = index == currentPage,
-            setProgress = if (index < currentPage) 1f else 0f,
-            indicatorBackgroundColor = indicatorBackgroundColor,
-            indicatorProgressColor = indicatorProgressColor,
-            slideDurationInSeconds = slideDurationInSeconds,
-            onPauseTimer = pauseTimer,
-            hideIndicators = hideIndicators,
-            onAnimationEnd = onAnimationEnd,
-        )
-
-        Spacer(modifier = Modifier.padding(spaceBetweenIndicator))
-    }
 }
